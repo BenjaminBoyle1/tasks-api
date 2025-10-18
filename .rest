@@ -1,0 +1,35 @@
+### Root
+GET http://localhost:8080/ HTTP/1.1
+
+
+### Swagger UI
+GET http://localhost:8080/api-docs HTTP/1.1
+
+### List tasks
+GET http://localhost:8080/tasks HTTP/1.1
+
+### Get by ID
+GET http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee23} HTTP/1.1
+
+
+### Create task
+POST http://localhost:8080/tasks HTTP/1.1
+
+{
+  "title": "Finish Node.js project setup",
+  "completed": false,
+  "notes": "Initialize npm and install dependencies"
+}
+
+### Update task
+PUT http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee23} HTTP/1.1
+
+{
+  "title": "Finish Node.js project setup and deployment",
+  "completed": true,
+  "notes": "Done and deployed"
+}
+
+### Delete task
+DELETE http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee23} HTTP/1.1
+

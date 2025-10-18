@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Finish Node.js project setup",
+    "completed": false,
+    "notes": "Initialize npm, install dependencies, and verify Express server runs locally."
+  },
+  {
+    "title": "Create MongoDB connection",
+    "completed": false,
+    "notes": "Set up mongoose config file and connect using .env credentials."
+  },
+  {
+    "title": "Implement GET and POST routes",
+    "completed": true,
+    "notes": "Test both routes in Postman and verify data saves to MongoDB."
+  },
+  {
+    "title": "Generate Swagger documentation",
+    "completed": false,
+    "notes": "Run swagger-autogen and confirm /api-docs shows all CRUD routes."
+  },
+  {
+    "title": "Deploy to Render",
+    "completed": false,
+    "notes": "Create new web service, add environment variables, and test live endpoint."
+  },
+  {
+    "title": "Record demo video",
+    "completed": false,
+    "notes": "Show POST and GET requests in Swagger UI and publish to YouTube (unlisted)."
+  },
+  {
+    "title": "Submit project links in I-Learn",
+    "completed": false,
+    "notes": "Include GitHub, Render, and YouTube links before due date."
+  }
+]
