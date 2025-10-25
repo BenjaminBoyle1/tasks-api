@@ -67,7 +67,7 @@ const updateTask = async (req, res) => {
     const result = await db.getDb().collection(COLLECTION).updateOne({ _id }, { $set });
     if (result.matchedCount === 0) return res.status(404).json({ message: 'Task not found' });
 
-    res.status(204).end();
+      res.status(204).json({ message: 'Task updated successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to update task', error: err.message });
   }
