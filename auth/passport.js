@@ -20,15 +20,15 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use(new GoogleStrategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.OAUTH_CALLBACK_URL
+    clientID: process.env.GOOGLE_CLIENT_ID,         // in .env
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET, // in .env
+    callbackURL: process.env.OAUTH_CALLBACK_URL     // in .env
   },
   async (_accessToken, _refreshToken, profile, done) => {
     try {
       const users = db.getDb().collection(USERS);
       const email = profile.emails?.[0]?.value;
-      if (!email) return done(new Error('No email from Google'), null);
+      if (!email) return done(new Error('No email returned by Google'), null);
 
       let user = await users.findOne({ email });
       if (!user) {

@@ -1,9 +1,9 @@
-require('dotenv').config(); // Load .env ONCE here
+require('dotenv').config(); // Load .env ONCE
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const passport = require('./auth/passport'); // initializes strategies & serialize/deserialize
+const passport = require('./auth/passport'); // initializes Google strategy + serialize/deserialize
 const mongodb = require('./db/connect');
 
 const port = process.env.PORT || 8080;
@@ -18,7 +18,7 @@ app
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
   })
-  // Sessions (for OAuth) — cookie-based
+  // Sessions for OAuth (cookie-based)
   .use(session({
     secret: process.env.SESSION_SECRET || 'change_me',
     resave: false,
@@ -35,7 +35,7 @@ app
   .use('/', require('./routes'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', 1); // needed for secure cookies behind proxy (Render)
+  app.set('trust proxy', 1); // needed for secure cookies behind proxies (e.g., Render)
 }
 
 mongodb.initDb((err) => {
