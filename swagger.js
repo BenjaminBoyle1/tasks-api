@@ -8,6 +8,10 @@ const doc = {
   },
   host: 'tasks-api-5eac.onrender.com',
   schemes: ['https'],
+  tags: [
+    { name: 'Auth', description: 'Google OAuth 2.0 (session-based)' },
+    { name: 'Tasks', description: 'Task operations (login required)' }
+  ]
 };
 
 const outputFile = './swagger.json';
