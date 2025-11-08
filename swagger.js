@@ -7,7 +7,7 @@ const doc = {
     description: 'BYUI-style CRUD API with Google OAuth sessions'
   },
   host: 'tasks-api-5eac.onrender.com',
-  schemes: ['http'],
+  schemes: ['https'],
   tags: [
     { name: 'Auth', description: 'Google OAuth 2.0 (session-based)' },
     { name: 'Tasks', description: 'Task operations (login required)' },
