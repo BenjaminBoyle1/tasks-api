@@ -1,9 +1,9 @@
-require('dotenv').config(); // Load .env ONCE
+require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const passport = require('./auth/passport'); // initializes Google strategy + serialize/deserialize
+const passport = require('./auth/passport');
 const mongodb = require('./db/connect');
 
 const port = process.env.PORT || 8080;
@@ -11,14 +11,14 @@ const app = express();
 
 app
   .use(bodyParser.json())
-  // Minimal CORS like your older project
+  // Simple CORS
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
   })
-  // Sessions for OAuth (cookie-based)
+  // Sessions for OAuth
   .use(session({
     secret: process.env.SESSION_SECRET || 'change_me',
     resave: false,
@@ -31,11 +31,11 @@ app
   }))
   .use(passport.initialize())
   .use(passport.session())
-  // Single root router (BYUI pattern)
+  // Root router (BYUI style)
   .use('/', require('./routes'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', 1); // needed for secure cookies behind proxies (e.g., Render)
+  app.set('trust proxy', 1);
 }
 
 mongodb.initDb((err) => {

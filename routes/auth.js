@@ -1,30 +1,25 @@
 const router = require('express').Router();
 const passport = require('../auth/passport');
 
-// Start Google OAuth (use a normal browser tab, not Swagger "Try it out")
+// Start Google OAuth (open in a regular browser tab)
 router.get('/google',
   /* #swagger.tags = ['Auth']
-     #swagger.summary = 'Start Google OAuth 2.0 login'
-     #swagger.description = 'Redirects to Google for authentication.' */
+     #swagger.summary = 'Start Google OAuth 2.0 login' */
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-// OAuth callback (Google redirects here after consent)
+// OAuth callback
 router.get('/google/callback',
   /* #swagger.tags = ['Auth']
-     #swagger.summary = 'Google OAuth 2.0 callback'
-     #swagger.description = 'Creates a session and redirects to /auth/me.' */
+     #swagger.summary = 'Google OAuth 2.0 callback' */
   passport.authenticate('google', { failureRedirect: '/api-docs', session: true }),
-  (req, res) => {
-    // After successful login, show who you are (or redirect to your app)
-    res.redirect('/auth/me');
-  }
+  (req, res) => res.redirect('/auth/me')
 );
 
-// Who am I? (handy to verify the session is active)
+// Who am I?
 router.get('/me',
   /* #swagger.tags = ['Auth']
-     #swagger.summary = 'Return the current authenticated user (session-based)' */
+     #swagger.summary = 'Return current authenticated user (session)' */
   (req, res) => {
     if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
     const { _id, email, firstName, lastName, picture } = req.user;
@@ -32,18 +27,14 @@ router.get('/me',
   }
 );
 
-// Logout (destroy session)
-router.post('/logout',
-  /* #swagger.tags = ['Auth']
-     #swagger.summary = 'Logout and destroy the session' */
-  (req, res, next) => {
-    req.logout?.((err) => {
-      if (err) return next(err);
-      req.session?.destroy(() => {
-        res.status(200).json({ message: 'Logged out' });
-      });
-    });
-  }
-);
+// Logout (support GET and POST)
+const doLogout = (req, res, next) => {
+  req.logout?.((err) => {
+    if (err) return next(err);
+    req.session?.destroy(() => res.status(200).json({ message: 'Logged out' }));
+  });
+};
+router.post('/logout', /* #swagger.tags = ['Auth'] */ doLogout);
+router.get('/logout',  /* #swagger.tags = ['Auth'] */ doLogout);
 
 module.exports = router;

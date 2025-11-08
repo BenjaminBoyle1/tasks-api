@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Tasks API",
-    "description": "CRUD API for tasks",
+    "description": "BYUI-style CRUD API with Google OAuth sessions",
     "version": "1.0.0"
   },
   "host": "tasks-api-5eac.onrender.com",
@@ -15,6 +15,10 @@
     {
       "name": "Tasks",
       "description": "Task operations (login required)"
+    },
+    {
+      "name": "Projects",
+      "description": "Project operations (login required)"
     }
   ],
   "schemes": [
@@ -47,7 +51,7 @@
           "Auth"
         ],
         "summary": "Start Google OAuth 2.0 login",
-        "description": "Redirects to Google for authentication.",
+        "description": "",
         "responses": {
           "default": {
             "description": ""
@@ -61,7 +65,7 @@
           "Auth"
         ],
         "summary": "Google OAuth 2.0 callback",
-        "description": "Creates a session and redirects to /auth/me.",
+        "description": "",
         "responses": {
           "default": {
             "description": ""
@@ -91,7 +95,17 @@
         "tags": [
           "Auth"
         ],
-        "summary": "Logout and destroy session",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -274,6 +288,278 @@
           "500": {
             "description": "Internal Server Error"
           }
+        }
+      }
+    },
+    "/projects/": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "List my projects (requires login)",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Create a project (requires login)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "priority": {
+                  "example": "any"
+                },
+                "dueDate": {
+                  "example": "any"
+                },
+                "tags": {
+                  "example": "any"
+                },
+                "budget": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get a project by ID (requires login)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Update a project (requires login)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "priority": {
+                  "example": "any"
+                },
+                "dueDate": {
+                  "example": "any"
+                },
+                "tags": {
+                  "example": "any"
+                },
+                "budget": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete a project (requires login)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "6711d8f1d3f2b4a1c9e12345"
+        },
+        "title": {
+          "type": "string",
+          "example": "Wire up OAuth"
+        },
+        "completed": {
+          "type": "boolean",
+          "example": false
+        },
+        "notes": {
+          "type": "string",
+          "example": "Finish Google login flow"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "6711d8f1d3f2b4a1c9e54321"
+        },
+        "name": {
+          "type": "string",
+          "example": "Course Final"
+        },
+        "description": {
+          "type": "string",
+          "example": "Independent project with OAuth + validation"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "priority": {
+          "type": "number",
+          "example": 3
+        },
+        "dueDate": {
+          "type": "string",
+          "example": "2025-11-30T00:00:00.000Z"
+        },
+        "tags": {
+          "type": "array",
+          "example": [
+            "node",
+            "oauth",
+            "swagger"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "budget": {
+          "type": "number",
+          "example": 0
+        },
+        "ownerId": {
+          "type": "string",
+          "example": "6711d8f1d3f2b4a1c9e99999"
         }
       }
     }

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "CSE341 Final Project",
+    "description": "Independent Node.js and MongoDB project with OAuth authentication and Swagger documentation.",
+    "status": "active",
+    "priority": 5,
+    "dueDate": "2025-12-10T00:00:00.000Z",
+    "tags": ["node", "mongodb", "oauth", "swagger"],
+    "budget": 0,
+    "ownerId": null,
+    "createdAt": { "$date": "2025-11-01T18:00:00.000Z" },
+    "updatedAt": { "$date": "2025-11-01T18:00:00.000Z" }
+  },
+  {
+    "name": "Personal Portfolio Website",
+    "description": "Full-stack web app showcasing personal projects and resume.",
+    "status": "planned",
+    "priority": 3,
+    "dueDate": "2026-01-15T00:00:00.000Z",
+    "tags": ["react", "express", "design"],
+    "budget": 250,
+    "ownerId": null,
+    "createdAt": { "$date": "2025-10-20T18:00:00.000Z" },
+    "updatedAt": { "$date": "2025-10-20T18:00:00.000Z" }
+  },
+  {
+    "name": "Group Collaboration Tool",
+    "description": "A task and project tracking platform for small teams using OAuth login.",
+    "status": "paused",
+    "priority": 4,
+    "dueDate": "2026-03-01T00:00:00.000Z",
+    "tags": ["api", "project-management", "collaboration"],
+    "budget": 1200,
+    "ownerId": null,
+    "createdAt": { "$date": "2025-09-12T18:00:00.000Z" },
+    "updatedAt": { "$date": "2025-10-10T18:00:00.000Z" }
+  },
+  {
+    "name": "Fitness Tracker API",
+    "description": "RESTful API for tracking workouts and nutrition using MongoDB Atlas.",
+    "status": "active",
+    "priority": 4,
+    "dueDate": "2026-02-28T00:00:00.000Z",
+    "tags": ["api", "fitness", "express"],
+    "budget": 0,
+    "ownerId": null,
+    "createdAt": { "$date": "2025-11-05T18:00:00.000Z" },
+    "updatedAt": { "$date": "2025-11-05T18:00:00.000Z" }
+  },
+  {
+    "name": "Weather Dashboard",
+    "description": "Dashboard for fetching and displaying weather data from external APIs.",
+    "status": "completed",
+    "priority": 2,
+    "dueDate": "2025-09-15T00:00:00.000Z",
+    "tags": ["api", "frontend", "weather"],
+    "budget": 150,
+    "ownerId": null,
+    "createdAt": { "$date": "2025-08-10T18:00:00.000Z" },
+    "updatedAt": { "$date": "2025-09-12T18:00:00.000Z" }
+  }
+]

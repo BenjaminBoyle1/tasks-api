@@ -1,8 +1,8 @@
 const db = require('../db/connect');
 const { ObjectId } = require('mongodb');
 
-const toObjectId = (id) => (ObjectId.isValid(id) ? new ObjectId(id) : null);
 const COLLECTION = 'tasks';
+const toId = (id) => (ObjectId.isValid(id) ? new ObjectId(id) : null);
 
 const getAll = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
   try {
-    const _id = toObjectId(req.params.id);
+    const _id = toId(req.params.id);
     if (!_id) return res.status(400).json({ message: 'Invalid task id' });
 
     const doc = await db.getDb().collection(COLLECTION).findOne({ _id });
@@ -30,14 +30,15 @@ const getSingle = async (req, res) => {
 const createTask = async (req, res) => {
   try {
     const { title, completed = false, notes = '' } = req.body || {};
-    if (!title || !title.trim()) {
-      return res.status(400).json({ message: 'title is required' });
-    }
+    if (!title || !title.trim()) return res.status(400).json({ message: 'title is required' });
 
+    const now = new Date();
     const result = await db.getDb().collection(COLLECTION).insertOne({
       title: title.trim(),
       completed: !!completed,
-      notes
+      notes,
+      createdAt: now,
+      updatedAt: now
     });
 
     res.status(201).json({ id: result.insertedId });
@@ -48,24 +49,21 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    const _id = toObjectId(req.params.id);
+    const _id = toId(req.params.id);
     if (!_id) return res.status(400).json({ message: 'Invalid task id' });
 
     const { title, completed, notes } = req.body || {};
-    const $set = {};
+    const $set = { updatedAt: new Date() };
     if (title !== undefined) {
       if (!title || !title.trim()) return res.status(400).json({ message: 'title cannot be empty' });
       $set.title = title.trim();
     }
     if (completed !== undefined) $set.completed = !!completed;
     if (notes !== undefined) $set.notes = notes;
+    if (!Object.keys($set).length) return res.status(400).json({ message: 'No fields provided to update' });
 
-    if (!Object.keys($set).length) {
-      return res.status(400).json({ message: 'No fields provided to update' });
-    }
-
-    const result = await db.getDb().collection(COLLECTION).updateOne({ _id }, { $set });
-    if (result.matchedCount === 0) return res.status(404).json({ message: 'Task not found' });
+    const r = await db.getDb().collection(COLLECTION).updateOne({ _id }, { $set });
+    if (!r.matchedCount) return res.status(404).json({ message: 'Task not found' });
 
     res.status(204).end();
   } catch (err) {
@@ -75,11 +73,11 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    const _id = toObjectId(req.params.id);
+    const _id = toId(req.params.id);
     if (!_id) return res.status(400).json({ message: 'Invalid task id' });
 
-    const result = await db.getDb().collection(COLLECTION).deleteOne({ _id });
-    if (result.deletedCount === 0) return res.status(404).json({ message: 'Task not found' });
+    const r = await db.getDb().collection(COLLECTION).deleteOne({ _id });
+    if (!r.deletedCount) return res.status(404).json({ message: 'Task not found' });
 
     res.status(200).json({ message: 'Task deleted successfully' });
   } catch (err) {
@@ -87,10 +85,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = {
-  getAll,
-  getSingle,
-  createTask,
-  updateTask,
-  deleteTask
-};
+module.exports = { getAll, getSingle, createTask, updateTask, deleteTask };

@@ -1,35 +1,59 @@
 ### Root
-GET http://localhost:8080/ HTTP/1.1
-
+GET http://localhost:8080/
+Accept: application/json
 
 ### Swagger UI
-GET http://localhost:8080/api-docs HTTP/1.1
+GET http://localhost:8080/api-docs
 
-### List tasks
-GET http://localhost:8080/tasks HTTP/1.1
+### --- AUTH ---
+# Start login in a browser: http://localhost:8080/auth/google
+GET http://localhost:8080/auth/me
+GET http://localhost:8080/auth/logout
 
-### Get by ID
-GET http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee23} HTTP/1.1
-
-
-### Create task
-POST http://localhost:8080/tasks HTTP/1.1
+### --- TASKS ---
+GET http://localhost:8080/tasks
+POST http://localhost:8080/tasks
+Content-Type: application/json
 
 {
-  "title": "Finish Node.js project setup",
+  "title": "Finish video demo",
   "completed": false,
-  "notes": "Initialize npm and install dependencies"
+  "notes": "Show DB updates"
 }
 
-### Update task
-PUT http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee23} HTTP/1.1
+### Replace {{taskId}}
+PUT http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee24}
+Content-Type: application/json
 
 {
-  "title": "Finish Node.js project setup and deployment",
-  "completed": true,
-  "notes": "Done and deployed"
+  "completed": true
 }
 
-### Delete task
-DELETE http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee23} HTTP/1.1
+DELETE http://localhost:8080/tasks/{68f40b57f49bca3ae2b1ee24}
 
+### --- PROJECTS ---
+GET http://localhost:8080/projects
+
+POST http://localhost:8080/projects
+Content-Type: application/json
+
+{
+  "name": "Course Final",
+  "description": "Independent project with OAuth + validation",
+  "status": "active",
+  "priority": 3,
+  "dueDate": "2025-11-30",
+  "tags": ["node", "oauth", "swagger"],
+  "budget": 0
+}
+
+### Replace {{projectId}}
+PUT http://localhost:8080/projects/{690fc6e6b460a9fe7951654e}
+Content-Type: application/json
+
+{
+  "status": "completed",
+  "priority": 5
+}
+
+DELETE http://localhost:8080/projects/{690fc6e6b460a9fe7951654e}
